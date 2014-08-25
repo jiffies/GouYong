@@ -1,6 +1,8 @@
 #-*- coding:utf-8 -*-
 from gi.repository import Gdk,Gtk,GLib,WebKit
 import youdaoQuery
+import os
+import os.path
 WIDTH = 800
 HEIGHT = 280
 MOUSE_DETECT_INTERVAL = 100
@@ -34,6 +36,7 @@ class MainWindow(Gtk.Window):
         self.connect("delete-event", Gtk.main_quit)
         self.iconify()
         self.show_all()
+        self.dir=os.getcwd()
         
 class Clip(object):
     def __init__(self,main_win,popup):
@@ -68,8 +71,9 @@ class Clip(object):
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
         results=youdaoQuery.gettext(text)
-        youdaoQuery.creat_file(text,results)
-        self.popup.load_uri("file:///home/lcq/python/youdao/cache/"+text)
+        fileName=youdaoQuery.creat_file(text,results)
+        uri = 'file://'+os.path.join(self.main_win.dir,fileName)
+        self.popup.load_uri(uri)
         self.popup.popup.move(x,y)
         self.popup.popup.show_all()
         center={'x':x,'y':y}
