@@ -69,7 +69,7 @@ class Clip(object):
         print "x= %f,y=%f" % (x,y)
         results=youdaoQuery.gettext(text)
         youdaoQuery.creat_file(text,results)
-        self.popup.load_uri("file:///home/lcq/python/exercise/cache/"+text)
+        self.popup.load_uri("file:///home/lcq/python/youdao/cache/"+text)
         self.popup.popup.move(x,y)
         self.popup.popup.show_all()
         center={'x':x,'y':y}

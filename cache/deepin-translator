@@ -1,0 +1,71 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://shared.ydstatic.com/dict/v5.15/styles/result-min.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="results">
+                    	<div id="result_navigator" class="result_navigator">
+            <ul class="sub-catalog">
+        <h3>目录</h3>
+        <li class="split"></li>
+                                                                                                        <li class="nav-collins"><a href="http://dict.youdao.com/writing/?keyfrom=dictweb" hidefocus="true">英文写作助手</a><span class="collins-icon"></span></li>
+                                        <li class="nav-21"><a class="nav-js log-js" href="#webSearch" hidefocus="true" data-4log="dict.nav.search">搜索</a></li>
+                            </ul>
+        <a href="#" class="go-top log-js" data-4log="dict.result.nav.top" title="返回顶部">go top</a>
+    </div>
+                <!-- 结果内容 -->
+                            <div id="results-contents" class="results-content">
+                        
+                                  
+                                    
+                    
+
+
+
+                                                      
+                                                                                                                                             <div class="error-wrapper" stype="height:30px">
+                        <div class="error-note">
+                <dl>
+                <dt><a href="http://feedback.youdao.com/quality_report.jsp?q=deepin-translator&prodtype=dict&cmt=%E6%88%91%E8%A6%81%E6%B7%BB%E5%8A%A0%E2%80%9Cdeepin-translator%E2%80%9D%E7%9A%84%E4%B8%AD%E6%96%87%E9%87%8A%E4%B9%89%E5%A6%82%E4%B8%8B%EF%BC%9A" rel=nofollow>添加释义，成为本词条创始人！</a></dt>
+            </dl>
+            </div>
+            </div>
+                                                                                         
+                <div id="webSearch" class="trans-wrapper">
+<h3>
+    <span class="tabs"><a class="tab-current"><span>网页搜索</span></a></span>
+    <a class="toggle toggleOpen" rel="#websearchToggle"></a>
+</h3>
+<div id="websearchToggle">
+ <div id="webSearchResults" class="trans-container">
+    <div class="search_result">
+   <h4 class="sresult_title"><a href="http://www.oschina.net/code/tag/deepin-translator?catalog=web-services-soap-rpc&show=time" target=_blank><strong>deepin-translator</strong> Web服务/SOAP/RPC - 开源中国...</a></h4>
+   <p class="sresult_content">代码分享 » 标签大全 » <strong>deepin-translator</strong>  标签:<strong>deepin-translator</strong> 开源从代码分享开始 分享代码  TOP40活跃贡献者 usual29.[4] PHP[2]  yourOnl.[3] Java[3]  李惟[14] JavaScr.[7...</p>
+   <a class="sresult_link" href="http://www.oschina.net/code/tag/deepin-translator?catalog=web-services-soap-rpc&show=time" target=_blank>http://www.oschina.net/code/tag/deepin-translator?catalog=web-services-soap-rpc&show=time</a>
+  </div>
+      <div class="search_result">
+   <h4 class="sresult_title"><a href="https://github.com/linuxdeepin/deepin-translator/blob/master/INSTALL.md" target=_blank><strong>deepin-translator</strong>/INSTALL.md at master ...</a></h4>
+   <p class="sresult_content">Contribute to <strong>deepin-translator</strong> development by creating an account on GitHub.   Skip to content This repository  This repository All repositories public linuxdeepin/<strong>deepin-translato</strong>...</p>
+   <a class="sresult_link" href="https://github.com/linuxdeepin/deepin-translator/blob/master/INSTALL.md" target=_blank>https://github.com/linuxdeepin/deepin-translator/blob/master/INSTALL.md</a>
+  </div>
+      <div class="search_result">
+   <h4 class="sresult_title"><a href="https://gitcafe.com/Deepin/deepin-translator" target=_blank><strong>Deepin</strong>/deepin-translator - GitCafe</a></h4>
+   <p class="sresult_content"><strong>Deepin translator</strong> for Linux Deepin Double click to translate word around cursor, or selection text to pop translate window. You can use Alt + Mouse to translate word that can't sele...</p>
+   <a class="sresult_link" href="https://gitcafe.com/Deepin/deepin-translator" target=_blank>https://gitcafe.com/Deepin/deepin-translator</a>
+  </div>
+                 </div>
+</div>
+</div>
+
+                
+                    </div>
+    </div>
+                    
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://shared.ydstatic.com/dict/v5.15/scripts/result-min.js"></script>
+
+<script type="text/javascript" src="http://shared.ydstatic.com/dict/v5.15/scripts/picugc-min6.js"></script>
+<script type="text/javascript" src="http://shared.ydstatic.com/js/suggest/autocomplete.r156903.js"></script>
+</body>
+<html>
