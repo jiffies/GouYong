@@ -1,7 +1,9 @@
 #-*- coding:utf-8 -*-
-from gi.repository import Gdk,Gtk,GLib,WebKit
+from gi.repository import Gdk,Gtk,GLib,WebKit,GObject
 import youdaoQuery
 import os
+import sys
+import record
 import os.path
 WIDTH = 800
 HEIGHT = 280
@@ -33,17 +35,29 @@ class MainWindow(Gtk.Window):
         super(MainWindow,self).__init__()
         self.display = self.get_display()
         self.screen = self.get_screen()
-        self.connect("delete-event", Gtk.main_quit)
+        self.connect("delete-event", self._on_delete_event)
         self.iconify()
         self.show_all()
         self.dir=os.getcwd()
+    def _on_delete_event(self,*args):
+        self.rc.stop()
+        Gtk.main_quit()
         
-class Clip(object):
+class Clip(GObject.GObject):
+    __gsignals__ = {
+            "need_clip":(GObject.SIGNAL_RUN_FIRST,None,(int,))
+            }
+    
+    def do_need_clip(self,arg):
+        print "need",arg
+        self._on_owner_change()
     def __init__(self,main_win,popup):
+        super(Clip,self).__init__()
         self.main_win = main_win
         self.popup = popup
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        self.primary.connect('owner-change',self._on_owner_change)
+        self.pretext = None
+        #self.primary.connect('owner-change',self._on_owner_change)
         
 
     def _is_out(self,x,y,center_pointer,width,height):
@@ -61,8 +75,11 @@ class Clip(object):
         else:
             return True
 
-    def _on_owner_change(self,clip,event):
+    def _on_owner_change(self):
         text = self.primary.wait_for_text()
+        if text == self.pretext:
+            return
+        self.pretext = text
         if text != None:
             print text
         else:
@@ -84,6 +101,9 @@ def main():
     pop=Popup()
     win=MainWindow()
     clip=Clip(win,pop)
+    rc=record.RecordClient(clip)
+    win.rc = rc
+    rc.start()
     Gtk.main()
 
 if __name__ == "__main__":
