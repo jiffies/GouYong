@@ -66,8 +66,8 @@ class RecordClient(threading.Thread):
             #self.capture_event.emit(event)
             if event.type == X.ButtonRelease:
                 print self.clip
-                GLib.idle_add(self.clip._on_owner_change)
-                #self.clip.emit("need_clip",1)
+                #GLib.idle_add(self.clip._on_owner_change)
+                GLib.idle_add(self.clip.emit,"need_clip")
                 #text = self.clip.primary.wait_for_text() #os.system("xclip -o")
                 #if text != None:
                     #print text

@@ -45,11 +45,11 @@ class MainWindow(Gtk.Window):
         
 class Clip(GObject.GObject):
     __gsignals__ = {
-            "need_clip":(GObject.SIGNAL_RUN_FIRST,None,(int,))
+            "need_clip":(GObject.SIGNAL_RUN_FIRST,None,())
             }
     
-    def do_need_clip(self,arg):
-        print "need",arg
+    def do_need_clip(self):
+        print "need"
         self._on_owner_change()
     def __init__(self,main_win,popup):
         super(Clip,self).__init__()
