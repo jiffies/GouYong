@@ -65,24 +65,11 @@ class RecordClient(threading.Thread):
             event, data = self.get_event_data(data)
             #self.capture_event.emit(event)
             if event.type == X.ButtonRelease:
-                print self.clip
                 #GLib.idle_add(self.clip._on_owner_change)
-                GLib.idle_add(self.clip.emit,"need_clip")
-                #text = self.clip.primary.wait_for_text() #os.system("xclip -o")
-                #if text != None:
-                    #print text
-                #else:
-                    #print("No text on the clipboard.")
-                    #return False
+                if event.state & X.Button1Mask:
+                    GLib.idle_add(self.clip.emit,"need_clip")
             elif event.type == X.MotionNotify:
                 pass
-                #print "x=%d,y=%d" % (event.root_x,event.root_y)
-            #elif event.type == X.DestroyNotify:
-                #print "close"
-                #r=record_dpy.record_disable_context(CTX)
-                #record_dpy.flush()
-                #print r
-                #return
 
 
     def run(self):

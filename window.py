@@ -56,7 +56,8 @@ class Clip(GObject.GObject):
         self.main_win = main_win
         self.popup = popup
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        self.pretext = None
+        #self.pretext = None
+        #self.pre_timeout = False
         #self.primary.connect('owner-change',self._on_owner_change)
         
 
@@ -77,14 +78,17 @@ class Clip(GObject.GObject):
 
     def _on_owner_change(self):
         text = self.primary.wait_for_text()
-        if text == self.pretext:
-            return
-        self.pretext = text
-        if text != None:
+        if text:
             print text
         else:
             print("No text on the clipboard.")
             return False
+        self.primary.set_text('',0)
+        #if text == self.pretext and not self.pre_timeout:
+            #return
+        #elif self.pre_timeout:
+            #self.primary.clear()
+        #self.pretext = text
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
         results=youdaoQuery.gettext(text)
