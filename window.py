@@ -5,6 +5,7 @@ import os
 import sys
 import record
 import os.path
+from dict_manager import DictManager
 WIDTH = 800
 HEIGHT = 280
 MOUSE_DETECT_INTERVAL = 100
@@ -14,10 +15,14 @@ class Popup(object):
     def __init__(self):
         self.popup=Gtk.Window.new(Gtk.WindowType.POPUP)
         self.popup.set_default_size(WIDTH, HEIGHT)
+        self.hbox = Gtk.Box(spacing=0)
+        self.popup.add(self.hbox)
         self.web = WebKit.WebView.new()
         self.scroll = Gtk.ScrolledWindow()
         self.scroll.add(self.web)
-        self.popup.add(self.scroll)
+        #self.popup.add(self.scroll)
+        self.label = Gtk.Label()
+        self.hbox.pack_start(self.label,True,True,0)
         self.gravity=None
     
     def load_uri(self,url):
@@ -51,10 +56,14 @@ class Clip(GObject.GObject):
     def do_need_clip(self):
         print "need"
         self._on_owner_change()
-    def __init__(self,main_win,popup):
+
+    def __init__(self,main_win,popup,dm):
         super(Clip,self).__init__()
         self.main_win = main_win
         self.popup = popup
+        #dict manager
+        self.dm = dm
+        self.isNet = False
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
         #self.primary.connect('owner-change',self._on_owner_change)
         
@@ -127,10 +136,16 @@ class Clip(GObject.GObject):
         self.primary.set_text('',0)
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
-        results=youdaoQuery.gettext(text)
-        fileName=youdaoQuery.creat_file(text,results)
-        uri = 'file://'+os.path.join(self.main_win.dir,fileName)
-        self.popup.load_uri(uri)
+        if self.isNet:
+            results=youdaoQuery.gettext(text)
+            fileName=youdaoQuery.creat_file(text,results)
+            uri = 'file://'+os.path.join(self.main_win.dir,fileName)
+            self.popup.load_uri(uri)
+        else:
+            results=self.dm.dict[text]
+            print results
+            self.popup.label.set_text(results)
+
         self._placement(x,y)
         self.popup.popup.show_all()
         center={'x':x,'y':y}
@@ -142,7 +157,9 @@ class Clip(GObject.GObject):
 def main():
     pop=Popup()
     win=MainWindow()
-    clip=Clip(win,pop)
+    dm = DictManager()
+    dm.open_dict()
+    clip=Clip(win,pop,dm)
     #record client thread start
     rc=record.RecordClient(clip)
     win.rc = rc
