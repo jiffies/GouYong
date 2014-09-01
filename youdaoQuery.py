@@ -3,6 +3,8 @@ import re
 from string import Template
 import os.path
 import os
+EXEPATH=os.path.split(os.path.realpath(__file__))[0]
+os.chdir(EXEPATH)
 CWD=os.getcwd()
 TEMPLATEFILE=os.path.join(CWD,"youdao.temp")
 QUERY = "http://dict.youdao.com/search?le=eng&q="
