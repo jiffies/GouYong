@@ -2,7 +2,9 @@ import urllib2
 import re
 from string import Template
 import os.path
-TEMPLATEFILE="/home/lcq/python/exercise/youdao.temp"
+import os
+CWD=os.getcwd()
+TEMPLATEFILE=os.path.join(CWD,"youdao.temp")
 QUERY = "http://dict.youdao.com/search?le=eng&q="
 PATTERN=r'(?s)(<div id="results">.*)<div id="ads" class="ads">'
 CACHEDIR="cache"
