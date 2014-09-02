@@ -8,6 +8,7 @@ import record
 import os.path
 from dict_manager import DictManager
 import utils
+from indicator import DictIndicator
 WIDTH = 800
 HEIGHT = 280
 MOUSE_DETECT_INTERVAL = 100
@@ -43,8 +44,8 @@ class MainWindow(Gtk.Window):
         self.screen_width = self.screen.width()
         self.screen_height = self.screen.height()
         self.connect("delete-event", self._on_delete_event)
-        self.iconify()
-        self.show_all()
+        #self.iconify()
+        #self.show_all()
         self.dir=os.getcwd()
     def _on_delete_event(self,*args):
         self.rc.stop()
@@ -168,6 +169,7 @@ def main():
     dm.open_dict()
     clip=Clip(win,pop,dm)
     #record client thread start
+    ind = DictIndicator(win,clip)
     rc=record.RecordClient(clip)
     win.rc = rc
     rc.start()

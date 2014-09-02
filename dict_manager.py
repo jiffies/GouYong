@@ -1,7 +1,7 @@
 #!-*- coding:utf-8 -*-
 LIBDIR = 'lib'
 DICTDIR = 'dict'
-DEFAULT = '21shijishuangxiangcidian'
+DEFAULT = 'langdao-ec-gb'
 import sys
 import os.path
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),LIBDIR))
