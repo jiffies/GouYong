@@ -1,11 +1,13 @@
 #-*- coding:utf-8 -*-
 from gi.repository import Gdk,Gtk,GLib,WebKit,GObject
+import urllib2
 import youdaoQuery
 import os
 import sys
 import record
 import os.path
 from dict_manager import DictManager
+import utils
 WIDTH = 800
 HEIGHT = 280
 MOUSE_DETECT_INTERVAL = 100
@@ -20,7 +22,7 @@ class Popup(object):
         self.web = WebKit.WebView.new()
         self.scroll = Gtk.ScrolledWindow()
         self.scroll.add(self.web)
-        #self.popup.add(self.scroll)
+        self.hbox.add(self.scroll)
         self.label = Gtk.Label()
         self.hbox.pack_start(self.label,True,True,0)
         self.gravity=None
@@ -63,7 +65,7 @@ class Clip(GObject.GObject):
         self.popup = popup
         #dict manager
         self.dm = dm
-        self.isNet = False
+        self.isNet = True
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
         #self.primary.connect('owner-change',self._on_owner_change)
         
@@ -137,11 +139,16 @@ class Clip(GObject.GObject):
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
         if self.isNet:
-            results=youdaoQuery.gettext(text)
-            fileName=youdaoQuery.creat_file(text,results)
-            uri = 'file://'+os.path.join(self.main_win.dir,fileName)
-            self.popup.load_uri(uri)
+            try:
+                results=youdaoQuery.gettext(text)
+                fileName=youdaoQuery.creat_file(text,results)
+                uri = 'file://'+os.path.join(self.main_win.dir,fileName)
+                self.popup.load_uri(uri)
+            except urllib2.URLError:
+                print "You are disconnected."
+                self.isNet = False
         else:
+            text=utils.tidy_text(text)
             results=self.dm.dict[text]
             print results
             self.popup.label.set_text(results)
