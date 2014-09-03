@@ -9,15 +9,17 @@ import os.path
 from dict_manager import DictManager
 import utils
 from indicator import DictIndicator
+import cairo
 WIDTH = 700
 HEIGHT = 280
+OFFLINEWIDTH = 300
+OFFLINEHEIGHT = 200
 MOUSE_DETECT_INTERVAL = 100
 LEAVE_BORDER_WIDTH = 50
 
 class Popup(object):
     def __init__(self):
         self.popup=Gtk.Window.new(Gtk.WindowType.POPUP)
-        self.popup.set_default_size(WIDTH, HEIGHT)
         #self.hbox = Gtk.Box(spacing=0)
         self.web = WebKit.WebView.new()
         self.label = Gtk.Label()
@@ -26,15 +28,38 @@ class Popup(object):
         self.popup.add(self.scroll)
         #self.hbox.pack_start(self.label,True,True,0)
         self.gravity=None
+        self.init_ui()
+   
+    def init_ui(self):
+        self.popup.set_default_size(WIDTH, HEIGHT)
+        self.popup.set_app_paintable(True)
+        if self.popup.get_screen().is_composited():
+            self.popup.set_opacity(0.8)
+            self.label.set_opacity(1)
+        else:
+            print "Your desktop doesn't support composited."
+        self.popup.connect("draw",self._on_draw)
+    
+
+    def _on_draw(self,widget,ctx):
+        w,h = self.popup.get_size()
+        lg = cairo.LinearGradient(0,0,0,h)
+        lg.add_color_stop_rgba(0,0.48,0.75,0.917,1)
+        lg.add_color_stop_rgba(1,1,1,1,1)
+        ctx.rectangle(0,0,w,h)
+        ctx.set_source(lg)
+        ctx.fill()
 
     def change_ui_by_net(self,isNet):
         child = self.scroll.get_children()
         if isNet:
             self.scroll.remove(child[0])
             self.scroll.add(self.web)
+            self.popup.resize(WIDTH,HEIGHT)
         else:
             self.scroll.remove(child[0])
             self.scroll.add(self.label)
+            self.popup.resize(OFFLINEWIDTH,OFFLINEHEIGHT)
 
     
     def load_uri(self,url):
@@ -105,8 +130,10 @@ class Clip(GObject.GObject):
     def _check_mouse(self,center):
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
-        if self._is_out(x,y,center,WIDTH,HEIGHT):
+        w,h = self.popup.popup.get_size()
+        if self._is_out(x,y,center,w,h):
             self.popup.popup.hide()
+            print "hide============="
             return False
         else:
             return True
@@ -173,6 +200,7 @@ class Clip(GObject.GObject):
 
         self._placement(x,y)
         self.popup.popup.show_all()
+        print "show==================="
         center={'x':x,'y':y}
         Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
 
