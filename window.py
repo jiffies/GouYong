@@ -9,7 +9,7 @@ import os.path
 from dict_manager import DictManager
 import utils
 from indicator import DictIndicator
-WIDTH = 800
+WIDTH = 700
 HEIGHT = 280
 MOUSE_DETECT_INTERVAL = 100
 LEAVE_BORDER_WIDTH = 50
@@ -18,15 +18,24 @@ class Popup(object):
     def __init__(self):
         self.popup=Gtk.Window.new(Gtk.WindowType.POPUP)
         self.popup.set_default_size(WIDTH, HEIGHT)
-        self.hbox = Gtk.Box(spacing=0)
-        self.popup.add(self.hbox)
+        #self.hbox = Gtk.Box(spacing=0)
         self.web = WebKit.WebView.new()
+        self.label = Gtk.Label()
         self.scroll = Gtk.ScrolledWindow()
         self.scroll.add(self.web)
-        self.hbox.add(self.scroll)
-        self.label = Gtk.Label()
-        self.hbox.pack_start(self.label,True,True,0)
+        self.popup.add(self.scroll)
+        #self.hbox.pack_start(self.label,True,True,0)
         self.gravity=None
+
+    def change_ui_by_net(self,isNet):
+        child = self.scroll.get_children()
+        if isNet:
+            self.scroll.remove(child[0])
+            self.scroll.add(self.web)
+        else:
+            self.scroll.remove(child[0])
+            self.scroll.add(self.label)
+
     
     def load_uri(self,url):
         print url
@@ -128,6 +137,10 @@ class Clip(GObject.GObject):
         self.popup.popup.set_gravity(gravity)
         self.popup.gravity = gravity
         self.popup.popup.move(place_x,place_y)
+    
+    def change_net_state(self,state):
+        self.isNet = state
+        self.popup.change_ui_by_net(self.isNet)
 
     def _on_owner_change(self):
         text = self.primary.wait_for_text()
@@ -147,7 +160,11 @@ class Clip(GObject.GObject):
                 self.popup.load_uri(uri)
             except urllib2.URLError:
                 print "You are disconnected."
-                self.isNet = False
+                #self.isNet = False
+                #self.popup.change_ui_by_net(self.isNet)
+                #self.change_net_state(False)
+                self.dictind.toggled(self.dictind.use_web_item,isNet=False)
+                return
         else:
             text=utils.tidy_text(text)
             results=self.dm.dict[text]
@@ -170,6 +187,7 @@ def main():
     clip=Clip(win,pop,dm)
     #record client thread start
     ind = DictIndicator(win,clip)
+    clip.dictind = ind
     rc=record.RecordClient(clip)
     win.rc = rc
     rc.start()
