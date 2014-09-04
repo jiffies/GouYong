@@ -20,22 +20,28 @@ LEAVE_BORDER_WIDTH = 50
 class Popup(object):
     def __init__(self):
         self.popup=Gtk.Window.new(Gtk.WindowType.POPUP)
-        #self.hbox = Gtk.Box(spacing=0)
         self.web = WebKit.WebView.new()
         self.label = Gtk.Label()
         self.scroll = Gtk.ScrolledWindow()
         self.scroll.add(self.web)
         self.popup.add(self.scroll)
-        #self.hbox.pack_start(self.label,True,True,0)
         self.gravity=None
+        self.init_textview()
         self.init_ui()
+
+    def init_textview(self):
+        self.textbuffer = Gtk.TextBuffer.new()
+        self.textview = Gtk.TextView.new_with_buffer(self.textbuffer)
+        self.textview.set_editable(False)
+        self.textview.set_cursor_visible(False)
+        self.textview.set_opacity(0.5)
    
     def init_ui(self):
         self.popup.set_default_size(WIDTH, HEIGHT)
         self.popup.set_app_paintable(True)
         if self.popup.get_screen().is_composited():
-            self.popup.set_opacity(0.8)
-            self.label.set_opacity(1)
+            pass
+            #self.popup.set_opacity(0.8)
         else:
             print "Your desktop doesn't support composited."
         self.popup.connect("draw",self._on_draw)
@@ -49,6 +55,7 @@ class Popup(object):
         ctx.rectangle(0,0,w,h)
         ctx.set_source(lg)
         ctx.fill()
+        return False
 
     def change_ui_by_net(self,isNet):
         child = self.scroll.get_children()
@@ -58,7 +65,7 @@ class Popup(object):
             self.popup.resize(WIDTH,HEIGHT)
         else:
             self.scroll.remove(child[0])
-            self.scroll.add(self.label)
+            self.scroll.add(self.textview)
             self.popup.resize(OFFLINEWIDTH,OFFLINEHEIGHT)
 
     
@@ -78,8 +85,6 @@ class MainWindow(Gtk.Window):
         self.screen_width = self.screen.width()
         self.screen_height = self.screen.height()
         self.connect("delete-event", self._on_delete_event)
-        #self.iconify()
-        #self.show_all()
         self.dir=os.getcwd()
     def _on_delete_event(self,*args):
         self.rc.stop()
@@ -100,9 +105,9 @@ class Clip(GObject.GObject):
         self.popup = popup
         #dict manager
         self.dm = dm
+        self.check_mouse_thread_id = None
         self.isNet = True
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        #self.primary.connect('owner-change',self._on_owner_change)
         
 
     def _is_out(self,x,y,center_pointer,width,height):
@@ -129,7 +134,7 @@ class Clip(GObject.GObject):
 
     def _check_mouse(self,center):
         s,x,y,m=self.main_win.display.get_pointer()
-        print "x= %f,y=%f" % (x,y)
+        print "id:%d, x= %f,y=%f" % (self.check_mouse_thread_id,x,y)
         w,h = self.popup.popup.get_size()
         if self._is_out(x,y,center,w,h):
             self.popup.popup.hide()
@@ -187,22 +192,24 @@ class Clip(GObject.GObject):
                 self.popup.load_uri(uri)
             except urllib2.URLError:
                 print "You are disconnected."
-                #self.isNet = False
-                #self.popup.change_ui_by_net(self.isNet)
-                #self.change_net_state(False)
                 self.dictind.toggled(self.dictind.use_web_item,isNet=False)
                 return
         else:
             text=utils.tidy_text(text)
             results=self.dm.dict[text]
             print results
-            self.popup.label.set_text(results)
+            self.popup.textbuffer.set_text(results,len(results))
 
         self._placement(x,y)
+        if self.check_mouse_thread_id and GLib.source_remove(self.check_mouse_thread_id):
+            print "check mouse not finish.now kill it."
+            #self.popup.popup.hide()
+        else:
+            print "There is no check mouse thread."
         self.popup.popup.show_all()
         print "show==================="
         center={'x':x,'y':y}
-        Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
+        self.check_mouse_thread_id=Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
 
 
 
