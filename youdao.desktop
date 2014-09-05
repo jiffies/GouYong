@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=youdao
-Name[zh_CN]=有道
-Type=Application
-Exec=python /home/lcq/python/youdao/window.py
-Icon=/home/lcq/python/youdao/icon.png
-Categories=GTK;GNOME;Network;Office;Dictionary;
-Terminal=true

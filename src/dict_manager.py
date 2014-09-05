@@ -4,14 +4,14 @@ DICTDIR = 'dict'
 DEFAULT = 'langdao-ec-gb'
 import sys
 import os.path
-sys.path.insert(0,os.path.join(os.path.dirname(__file__),LIBDIR))
+sys.path.insert(0,os.path.join(os.path.dirname(__file__),'..',LIBDIR))
 from pystardict import Dictionary
 SUFFIX=['.oft','.gz','.dz']
 
 class DictManager():
     def __init__(self):
         self.current_dict_name = DEFAULT
-        self.dir = os.path.join(os.path.dirname(__file__),DICTDIR)
+        self.dir = os.path.join(os.path.dirname(__file__),'..',DICTDIR)
         walk = os.walk(self.dir)
         self.dicts = walk.next()[1]
         print self.dicts

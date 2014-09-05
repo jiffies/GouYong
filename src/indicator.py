@@ -12,7 +12,7 @@ class DictIndicator(object):
                     self.name,
                     "icon",
                     appindicator.IndicatorCategory.APPLICATION_STATUS,
-                    os.path.dirname(os.path.realpath(__file__)))
+                    os.path.join(os.path.dirname(__file__),'..'))
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         self.menu = Gtk.Menu()
 

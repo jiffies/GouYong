@@ -1,5 +1,4 @@
 #-*- coding:utf-8 -*-
-import pdb
 from gi.repository import Gdk,Gtk,GLib,WebKit,GObject
 import urllib2
 import youdaoQuery
@@ -213,6 +212,7 @@ class Clip(GObject.GObject):
         print "show==================="
         center={'x':x,'y':y}
         self.check_mouse_thread_id=Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
+
 
 
 

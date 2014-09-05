@@ -21,7 +21,7 @@ def creat_file(word,results):
     template=Template(file(TEMPLATEFILE).read())
     d={'results':results}
     s=template.substitute(d)   
-    fileName=os.path.join(CACHEDIR,RESULTFILE)
+    fileName=os.path.join("..",CACHEDIR,RESULTFILE)
     with file(fileName,'w') as f:
 	    f.write(s)
     return fileName
