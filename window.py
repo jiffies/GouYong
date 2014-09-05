@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+import pdb
 from gi.repository import Gdk,Gtk,GLib,WebKit,GObject
 import urllib2
 import youdaoQuery
@@ -98,7 +99,8 @@ class Clip(GObject.GObject):
     
     def do_need_clip(self):
         print "need"
-        self._on_owner_change()
+        with utils.Timer(True) as t:
+            self._on_owner_change()
 
     def __init__(self,main_win,popup,dm):
         super(Clip,self).__init__()
@@ -135,7 +137,7 @@ class Clip(GObject.GObject):
 
     def _check_mouse(self,center):
         s,x,y,m=self.main_win.display.get_pointer()
-        print "id:%d, x= %f,y=%f" % (self.check_mouse_thread_id,x,y)
+        #print "id:%d, x= %f,y=%f" % (self.check_mouse_thread_id,x,y)
         w,h = self.popup.popup.get_size()
         if self._is_out(x,y,center,w,h):
             self.popup.popup.hide()
@@ -211,7 +213,6 @@ class Clip(GObject.GObject):
         print "show==================="
         center={'x':x,'y':y}
         self.check_mouse_thread_id=Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
-
 
 
 

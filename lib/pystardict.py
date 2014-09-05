@@ -131,7 +131,6 @@ class _StarDictIdx(object):
          word_data_offset;  // word data's offset in .dict file
          word_data_size;  // word data's total size in .dict file 
     """
-    
     def __init__(self, dict_prefix, container):
         
         idx_filename = '%s.idx' % dict_prefix
@@ -150,33 +149,47 @@ class _StarDictIdx(object):
         """ prepare main dict and parsing parameters """
         self._idx = {}
         idx_offset_bytes_size = int(container.ifo.idxoffsetbits / 8)
-        idx_offset_format = {4: 'L', 8: 'Q',}[idx_offset_bytes_size]
+        self.idx_offset_format = {4: 'L', 8: 'Q',}[idx_offset_bytes_size]
         idx_cords_bytes_size = idx_offset_bytes_size + 4
         
         """ parse data via regex """
-        record_pattern = r'([\d\D]+?\x00[\d\D]{%s})' % idx_cords_bytes_size
-        matched_records = re.findall(record_pattern, self._file)
+        self.record_pattern = re.compile(r'([\d\D]+?\x00[\d\D]{%s})' % idx_cords_bytes_size)
         
+        matched_records = self.record_pattern.findall(self._file)
         """ check records count """
         if len(matched_records) != container.ifo.wordcount:
             raise Exception('words count is incorrect')
         
-        """ unpack parsed records """
-        for matched_record in matched_records:
-            c = matched_record.find('\x00') + 1
-            record_tuple = unpack('!%sc%sL' % (c, idx_offset_format),
-                matched_record)
-            word, cords = record_tuple[:c-1], record_tuple[c:]
-            self._idx[word] = cords        
-    
+        #""" unpack parsed records """
+        #for matched_record in matched_records:
+            #c = matched_record.find('\x00') + 1
+            #record_tuple = unpack('!%sc%sL' % (c, idx_offset_format),
+                #matched_record)
+            #word, cords = ''.join(record_tuple[:c-1]), record_tuple[c:]
+            #self._idx[word] = cords        
+        del matched_records
+
     def __getitem__(self, word):
         """
         returns tuple (word_data_offset, word_data_size,) for word in .dict
         
         @note: here may be placed flexible search realization
         """
-        print "tuple====",tuple(word)
-        return self._idx[tuple(word)]
+        matched_records = self.record_pattern.findall(self._file)
+        try:
+            for matched_record in matched_records:
+                c = matched_record.find('\x00') + 1
+                record_tuple = unpack('!%sc%sL' % (c, self.idx_offset_format),
+                    matched_record)
+                if word == ''.join(record_tuple[:c-1]):
+            #print "tuple====",tuple(word)
+                    print "find word:",word
+                    return record_tuple[c:]
+            #return self._idx[tuple(word)]
+            raise Exception("No have %s." % word)
+        finally:
+            del matched_records
+
     
     def __contains__(self, k):
         """

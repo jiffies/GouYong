@@ -36,8 +36,11 @@ class DictManager():
         self.open_dict()
 
 
-if __name__=="__main__":
+def main():
     d=DictManager()
     d.open_dict()
-    for dict in d.dicts:
-        d.change_dict(dict)
+
+if __name__=="__main__":
+    main()
+    #for dict in d.dicts:
+        #d.change_dict(dict)
