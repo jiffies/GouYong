@@ -223,7 +223,7 @@ def main():
     dm.open_dict()
     clip=Clip(win,pop,dm)
     #record client thread start
-    ind = DictIndicator(win,clip)
+    ind = DictIndicator(win,clip,dm)
     clip.dictind = ind
     rc=record.RecordClient(clip)
     win.rc = rc
