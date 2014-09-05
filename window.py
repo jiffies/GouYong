@@ -34,23 +34,24 @@ class Popup(object):
         self.textview = Gtk.TextView.new_with_buffer(self.textbuffer)
         self.textview.set_editable(False)
         self.textview.set_cursor_visible(False)
-        self.textview.set_opacity(0.5)
+        #self.textview.set_opacity(0.5)
    
     def init_ui(self):
         self.popup.set_default_size(WIDTH, HEIGHT)
-        self.popup.set_app_paintable(True)
+        self.textview.set_app_paintable(True)
         if self.popup.get_screen().is_composited():
             pass
             #self.popup.set_opacity(0.8)
         else:
             print "Your desktop doesn't support composited."
-        self.popup.connect("draw",self._on_draw)
+        self.textview.connect("draw",self._on_draw)
     
 
     def _on_draw(self,widget,ctx):
         w,h = self.popup.get_size()
         lg = cairo.LinearGradient(0,0,0,h)
-        lg.add_color_stop_rgba(0,0.48,0.75,0.917,1)
+        r,g,b=utils.rgb_trans(230, 243, 255)
+        lg.add_color_stop_rgba(0,r,g,b,1)
         lg.add_color_stop_rgba(1,1,1,1,1)
         ctx.rectangle(0,0,w,h)
         ctx.set_source(lg)
