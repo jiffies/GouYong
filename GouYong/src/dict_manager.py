@@ -3,6 +3,7 @@ LIBDIR = 'lib'
 DICTDIR = 'dict'
 #DEFAULT = 'langdao-ec-gb'
 DEFAULT = 'lazy-dict'
+import gc
 import sys
 import os.path
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),'..',LIBDIR))
@@ -31,6 +32,7 @@ class DictManager():
             dict_name = name
         #dict dir name maybe not the dict file name.
         del self.dict
+        gc.collect()
         self.dict = Dictionary(os.path.join(self.dict_dir,dict_name))
         print "载入",os.path.join(self.dict_dir,dict_name)
         

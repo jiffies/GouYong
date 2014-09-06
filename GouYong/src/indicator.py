@@ -2,6 +2,7 @@
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 import os.path
+import dict_manager
 INDICATOR_NAME = "GouYong"
 class DictIndicator(object):
     def __init__(self,main_win,clip,dm):
@@ -44,12 +45,17 @@ class DictIndicator(object):
         self.dict_select_group = Gtk.RadioMenuItem().get_group()
         for dict in self.dm.dicts:
             item = Gtk.RadioMenuItem.new_with_label(self.dict_select_group,dict)
+            if dict == dict_manager.DEFAULT:
+                item.set_active(True)
             self.dict_select_group = item.get_group()
             #item.set_label(dict)
             item.connect("toggled",self.cb_dict_select)
             dict_select.append(item)
 
     def cb_dict_select(self,widget):
+        if not widget.get_active():
+            print "%s not selected" % widget.get_label()
+            return
         self.dm.change_dict(widget.get_label())
         
 
