@@ -1,0 +1,2 @@
+python-gi>=3.12
+python-xlib
