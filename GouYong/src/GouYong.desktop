@@ -2,7 +2,7 @@
 Name=GouYong
 Name[zh_CN]=够用词典
 Type=Application
-Exec=python /home/lcq/python/GouYong/src/window.py
-Icon=/home/lcq/python/GouYong/icon.png
+Exec=GouYong
+Icon=/usr/share/GouYong/icon.png
 Categories=GTK;GNOME;Network;Office;Dictionary;
-Terminal=true
+Terminal=False

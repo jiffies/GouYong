@@ -143,6 +143,7 @@ class _StarDictIdx(object):
         
         """ check file size """
         self._file = file.read()
+        file.close()
         if file.tell() != container.ifo.idxfilesize:
             raise Exception('size of the .idx file is incorrect')
         

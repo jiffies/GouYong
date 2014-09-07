@@ -15,6 +15,8 @@ TODO:
 依赖：   
 1.python-gi 3.12  
 2.python-xlib  
+3.gir1.2-appindicator3-0.1  
+4.gir1.2-webkit-3.0  
      
 进度:    
 1.选词翻译基本达成。2014年 08月 25日 星期一 14:58:23 CST    

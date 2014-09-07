@@ -29,6 +29,10 @@ setup(
         '':['*.png','*.temp','*.desktop'],
         'GouYong':['cache/*','dict/*/*'],
         },
+    data_files = [
+            ('/usr/share/applications/',['GouYong/src/GouYong.desktop']),
+            ('/usr/share/GouYong/',['GouYong/icon.png']),
+        ],
     author = "Jiffies",
     author_email = "lcqtdwj@gmail.com",
     description = "A dict application run in Linux",
