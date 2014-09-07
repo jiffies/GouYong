@@ -182,7 +182,8 @@ class _StarDictIdx(object):
                 c = matched_record.find('\x00') + 1
                 record_tuple = unpack('!%sc%sL' % (c, self.idx_offset_format),
                     matched_record)
-                if word == ''.join(record_tuple[:c-1]):
+                #if word == ''.join(record_tuple[:c-1]):
+                if re.findall("\A%s\Z" % word,''.join(record_tuple[:c-1]),re.IGNORECASE):
             #print "tuple====",tuple(word)
                     print "find word:",word
                     return record_tuple[c:]
