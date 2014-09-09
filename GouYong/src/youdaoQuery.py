@@ -9,7 +9,11 @@ CWD=os.getcwd()
 TEMPLATEFILE=os.path.join(CWD,"youdao.temp")
 QUERY = "http://dict.youdao.com/search?le=eng&q="
 PATTERN=r'(?s)(<div id="results">.*)<div id="ads" class="ads">'
-CACHEDIR="cache"
+CACHEDIR=os.path.join(os.path.expanduser('~'),".cache","GouYong")
+try:
+    os.mkdir(CACHEDIR)
+except OSError:
+    print "cache folder exists."
 RESULTFILE="result.html"
 def gettext(word):
     query = QUERY+word
@@ -21,7 +25,7 @@ def creat_file(word,results):
     template=Template(file(TEMPLATEFILE).read())
     d={'results':results}
     s=template.substitute(d)   
-    fileName=os.path.join("..",CACHEDIR,RESULTFILE)
+    fileName=os.path.join(CACHEDIR,RESULTFILE)
     with file(fileName,'w') as f:
 	    f.write(s)
     return fileName

@@ -190,7 +190,7 @@ class Clip(GObject.GObject):
             try:
                 results=youdaoQuery.gettext(text)
                 fileName=youdaoQuery.creat_file(text,results)
-                uri = 'file://'+os.path.join(self.main_win.dir,fileName)
+                uri = 'file://'+fileName
                 self.popup.load_uri(uri)
             except urllib2.URLError:
                 print "You are disconnected."

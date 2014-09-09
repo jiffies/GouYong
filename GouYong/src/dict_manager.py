@@ -1,6 +1,5 @@
 #!-*- coding:utf-8 -*-
 LIBDIR = 'lib'
-DICTDIR = 'dict'
 #DEFAULT = 'langdao-ec-gb'
 DEFAULT = 'lazy-dict'
 import gc
@@ -9,11 +8,12 @@ import os.path
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),'..',LIBDIR))
 from pystardict import Dictionary
 SUFFIX=['.oft','.gz','.dz']
+DICTDIR = os.path.join(sys.prefix,'share','GouYong','dict')
 
 class DictManager():
     def __init__(self):
         self.current_dict_name = DEFAULT
-        self.dir = os.path.join(os.path.dirname(__file__),'..',DICTDIR)
+        self.dir = DICTDIR
         walk = os.walk(self.dir)
         self.dicts = walk.next()[1]
         self.dict = None
