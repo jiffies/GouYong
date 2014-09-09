@@ -17,7 +17,6 @@ def get_data_files():
 setup(
     name = "GouYong",
     version = '0.1',
-    install_requires = ['PyGObject','python-xlib'],
     packages = find_packages(),
     entry_points = {
         'gui_scripts':[
@@ -32,7 +31,7 @@ setup(
     data_files = get_data_files(),
     author = "Jiffies",
     author_email = "lcqtdwj@gmail.com",
-    description = "A translator application run in Linux",
+    description = "A translation software on  linux",
     license = "GPL",
     url = "https://github.com/jiffies/GouYong",
     classifiers=[
