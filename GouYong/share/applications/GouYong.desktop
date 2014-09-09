@@ -3,6 +3,6 @@ Name=GouYong
 Name[zh_CN]=够用
 Type=Application
 Exec=GouYong
-Icon=/usr/share/GouYong/icon.png
+Icon=/usr/share/icons/icon.png
 Categories=GTK;GNOME;Network;Office;Dictionary;
 Terminal=False

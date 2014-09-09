@@ -35,4 +35,10 @@ setup(
     description = "A translator application run in Linux",
     license = "GPL",
     url = "https://github.com/jiffies/GouYong",
-        )
+    classifiers=[
+        'Natural Language :: Chinese (Simplified)',
+        'Environment :: X11 Applications :: GTK',
+        'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python :: 2.7',
+    ]
+)
