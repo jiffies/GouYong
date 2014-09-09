@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #!-*- coding:utf-8 -*-
 import os
-
+MAINTAINER = "Jiffies<lcqtdwj@gmail.com>"
 NAME = "GouYong"
 DEP = "DEPENDENCY"
 FPM_D = r"-d '%s'"
@@ -14,8 +14,8 @@ def generate_dependency():
     return  ' '.join(items)
 
 def build_deb():
-    cmd = r"fpm -s python -t deb -n %s %s setup.py"
-    os.system(cmd % (NAME,generate_dependency()))
+    cmd = r"fpm -s python -t deb -m '%s' -n %s %s setup.py"
+    os.system(cmd % (MAINTAINER,NAME,generate_dependency()))
 
 def clean():
     pass
