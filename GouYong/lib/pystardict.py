@@ -23,6 +23,10 @@ import gzip
 import hashlib
 import re
 from struct import unpack
+import marisa_trie
+import sys
+import os.path
+import gc
 
 class _StarDictIfo(object):
     """
@@ -135,40 +139,62 @@ class _StarDictIdx(object):
         
         idx_filename = '%s.idx' % dict_prefix
         idx_filename_gz = '%s.gz' % idx_filename
-        
+        cachedir=os.path.join(os.path.expanduser('~'),'.cache','GouYong')
+        trie_name = os.path.join(cachedir,'%s.trie' % os.path.basename(dict_prefix))
+        fmt_filename = os.path.join(cachedir,'%s.fmt' % os.path.basename(dict_prefix))
         try:
-            file = open_file(idx_filename, idx_filename_gz)
-        except:
-            raise Exception('.idx file does not exists')
-        
-        """ check file size """
-        self._file = file.read()
-        if file.tell() != container.ifo.idxfilesize:
-            raise Exception('size of the .idx file is incorrect')
-        file.close()
-        
-        """ prepare main dict and parsing parameters """
-        self._idx = {}
-        idx_offset_bytes_size = int(container.ifo.idxoffsetbits / 8)
-        self.idx_offset_format = {4: 'L', 8: 'Q',}[idx_offset_bytes_size]
-        idx_cords_bytes_size = idx_offset_bytes_size + 4
-        
-        """ parse data via regex """
-        self.record_pattern = re.compile(r'([\d\D]+?\x00[\d\D]{%s})' % idx_cords_bytes_size)
-        
-        matched_records = self.record_pattern.findall(self._file)
-        """ check records count """
-        if len(matched_records) != container.ifo.wordcount:
-            raise Exception('words count is incorrect')
-        
-        #""" unpack parsed records """
-        #for matched_record in matched_records:
-            #c = matched_record.find('\x00') + 1
-            #record_tuple = unpack('!%sc%sL' % (c, idx_offset_format),
-                #matched_record)
-            #word, cords = ''.join(record_tuple[:c-1]), record_tuple[c:]
-            #self._idx[word] = cords        
-        del matched_records
+            with open(fmt_filename,'r') as f:
+                fmt = f.read()
+            self.trie = marisa_trie.RecordTrie(fmt)
+            self.trie.load(trie_name)
+            print "=========find .trie file and .fmt file"
+        except IOError:
+            try:
+                file = open_file(idx_filename, idx_filename_gz)
+            except:
+                raise Exception('.idx file does not exists')
+            
+            """ check file size """
+            _file = file.read()
+            if file.tell() != container.ifo.idxfilesize:
+                raise Exception('size of the .idx file is incorrect')
+            file.close()
+            
+            """ prepare main dict and parsing parameters """
+            idx_offset_bytes_size = int(container.ifo.idxoffsetbits / 8)
+            self.idx_offset_format = {4: 'L', 8: 'Q',}[idx_offset_bytes_size]
+            idx_cords_bytes_size = idx_offset_bytes_size + 4
+            
+            """ parse data via regex """
+            self.record_pattern = re.compile(r'([\d\D]+?\x00[\d\D]{%s})' % idx_cords_bytes_size)
+            dict = []
+            fmt = r"!%sL" % self.idx_offset_format
+            matched_records = self.record_pattern.findall(_file)
+            """ check records count """
+            if len(matched_records) != container.ifo.wordcount:
+                raise Exception('words count is incorrect')
+
+            for matched_record in matched_records:
+                c = matched_record.find('\x00') + 1
+                record_tuple = unpack('!%sc%sL' % (c, self.idx_offset_format),
+                    matched_record)
+                dict.append((''.join(record_tuple[:c-1]).decode('utf8'),record_tuple[c:]))
+            #self.dawg = dawg.RecordDAWG(fmt,dict)
+            self.trie = marisa_trie.RecordTrie(fmt,dict)
+            self.trie.save(trie_name)
+            with open(fmt_filename,'w') as f:
+                f.write(fmt)
+
+            del self.trie
+            self.trie = marisa_trie.RecordTrie(fmt)
+            self.trie.load(trie_name)
+            
+            del _file
+            del matched_records
+            del dict
+            print "============Not Found fmt and trie,analysis now."
+        gc.collect()
+
 
     def __getitem__(self, word):
         """
@@ -176,21 +202,7 @@ class _StarDictIdx(object):
         
         @note: here may be placed flexible search realization
         """
-        matched_records = self.record_pattern.findall(self._file)
-        try:
-            for matched_record in matched_records:
-                c = matched_record.find('\x00') + 1
-                record_tuple = unpack('!%sc%sL' % (c, self.idx_offset_format),
-                    matched_record)
-                #if word == ''.join(record_tuple[:c-1]):
-                if re.findall("\A%s\Z" % word,''.join(record_tuple[:c-1]),re.IGNORECASE):
-            #print "tuple====",tuple(word)
-                    print "find word:",word
-                    return record_tuple[c:]
-            #return self._idx[tuple(word)]
-            raise Exception("No have %s." % word)
-        finally:
-            del matched_records
+        return self.trie[word][0]
 
     
     def __contains__(self, k):
