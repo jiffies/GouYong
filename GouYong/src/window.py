@@ -93,13 +93,13 @@ class MainWindow(Gtk.Window):
         
 class Clip(GObject.GObject):
     __gsignals__ = {
-            "need_clip":(GObject.SIGNAL_RUN_FIRST,None,())
+            "need_clip":(GObject.SIGNAL_RUN_FIRST,None,(int,))
             }
     
-    def do_need_clip(self):
-        print "need"
+    def do_need_clip(self,time):
+        print "need at ",time
         with utils.Timer(True) as t:
-            self._on_owner_change()
+            self._on_check_clip(time)
 
     def __init__(self,main_win,popup,dm):
         super(Clip,self).__init__()
@@ -109,7 +109,10 @@ class Clip(GObject.GObject):
         self.dm = dm
         self.check_mouse_thread_id = None
         self.isNet = True
+        self.pre_selection_time = 0
+        self.owner_change=False
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
+        self.primary.connect("owner-change",self._on_owner_change)
         
 
     def _is_out(self,x,y,center_pointer,width,height):
@@ -176,14 +179,23 @@ class Clip(GObject.GObject):
         self.isNet = state
         self.popup.change_ui_by_net(self.isNet)
 
-    def _on_owner_change(self):
+    def _on_owner_change(self,clip,event):
+        self.owner_change = True
+        self.pre_selection_time = event.selection_time
+        
+
+    def _on_check_clip(self,time):
+        if not self.owner_change:
+            return
+        else:
+            self.owner_change = False
         text = self.primary.wait_for_text()
         if text:
             print text
         else:
             print("No text on the clipboard.")
             return False
-        self.primary.set_text('',0)
+        #self.primary.set_text('',0)
         s,x,y,m=self.main_win.display.get_pointer()
         print "x= %f,y=%f" % (x,y)
         if self.isNet:
