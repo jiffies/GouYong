@@ -6,10 +6,7 @@ from Xlib.ext import record
 from Xlib.protocol import rq
 import threading
 import os
-#display.Display()
-#local_dpy =display.Display()
-#record_dpy = display.Display()
-#CTX = None
+
 class RecordClient(threading.Thread):
     def __init__(self,clip):
         super(RecordClient,self).__init__()
@@ -63,9 +60,7 @@ class RecordClient(threading.Thread):
         data = reply.data
         while len(data):
             event, data = self.get_event_data(data)
-            #self.capture_event.emit(event)
             if event.type == X.ButtonRelease:
-                #GLib.idle_add(self.clip._on_owner_change)
                 if event.state & X.Button1Mask:
                     #GLib.idle_add(self.clip.emit,"need_clip",event.time)
                     #ButtonRelease事件比SelectionClear事件早发送，所以等待10ms再取词，让取词在_on_owner_change回调之后执行,emit return None
@@ -78,12 +73,7 @@ class RecordClient(threading.Thread):
         print "work run"
         self.record_event(self.record_callback)
 
-#def record_thread_start(clip):
-    #t=threading.Thread(target=record_worker,args=[clip])
-    ##t.setDaemon(True)
-    #t.start()
     def stop(self):
         print "enddddddddd"
         self.local_dpy.record_disable_context(self.ctx)
         self.local_dpy.flush()
-        #return
