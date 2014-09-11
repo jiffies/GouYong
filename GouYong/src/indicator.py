@@ -18,6 +18,11 @@ class DictIndicator(object):
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         self.menu = Gtk.Menu()
 
+        item = Gtk.CheckMenuItem.new_with_label("开始取词")
+        item.set_active(self.clip.isSel)
+        item.connect("toggled",self.cb_isSel)
+        self.menu.append(item)
+
         item = Gtk.CheckMenuItem.new_with_label("网络释义")
         item.set_active(self.clip.isNet)
         item.connect("toggled",self.cb_isNet)
@@ -70,5 +75,7 @@ class DictIndicator(object):
     def cb_quit(self,widget):
         self.main_win._on_delete_event()
 
+    def cb_isSel(self,widget):
+        self.clip.toggle_selection(widget.get_active())
 
                 
