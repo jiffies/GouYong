@@ -87,6 +87,7 @@ class MainWindow(Gtk.Window):
         self.screen_height = self.screen.height()
         self.connect("delete-event", self._on_delete_event)
         self.dir=os.getcwd()
+
     def _on_delete_event(self,*args):
         self.rc.stop()
         Gtk.main_quit()
@@ -109,6 +110,7 @@ class Clip(GObject.GObject):
         self.dm = dm
         self.check_mouse_thread_id = None
         self.isNet = True
+        self.isSel = True
         self.pre_selection_time = 0
         self.owner_change=False
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
@@ -178,6 +180,16 @@ class Clip(GObject.GObject):
     def change_net_state(self,state):
         self.isNet = state
         self.popup.change_ui_by_net(self.isNet)
+
+    def toggle_selection(self,state):
+        self.isSel = state
+        if self.isSel:
+            print "@@@@@@@@start"
+            self.main_win.rc=record.RecordClient(self)
+            self.main_win.rc.start()
+        else:
+            print "@@@@@@@@@@@stop"
+            self.main_win.rc.stop()
 
     def _on_owner_change(self,clip,event):
         self.owner_change = True
