@@ -202,7 +202,14 @@ class _StarDictIdx(object):
         
         @note: here may be placed flexible search realization
         """
-        return self.trie[word][0]
+        words = (word,word.capitalize(), word.upper())
+        for w in words:
+            try:
+                return self.trie[w][0]    
+            except KeyError:
+                print "No ",w
+        raise Exception("word %s doesn't found." % word)
+
 
     
     def __contains__(self, k):
