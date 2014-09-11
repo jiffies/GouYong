@@ -67,7 +67,9 @@ class RecordClient(threading.Thread):
             if event.type == X.ButtonRelease:
                 #GLib.idle_add(self.clip._on_owner_change)
                 if event.state & X.Button1Mask:
-                    GLib.idle_add(self.clip.emit,"need_clip")
+                    #GLib.idle_add(self.clip.emit,"need_clip",event.time)
+                    #ButtonRelease事件比SelectionClear事件早发送，所以等待10ms再取词，让取词在_on_owner_change回调之后执行,emit return None
+                    GLib.timeout_add(10,self.clip.emit,"need_clip",event.time)
             elif event.type == X.MotionNotify:
                 pass
 
