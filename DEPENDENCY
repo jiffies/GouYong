@@ -3,3 +3,4 @@ python-gi >= 3.12
 gir1.2-appindicator3-0.1
 gir1.2-webkit-3.0
 libgirepository-1.0-1
+python-marisa-trie
