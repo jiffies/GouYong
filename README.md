@@ -30,15 +30,15 @@
 7. 优化选词机制,可以直接再次选取同一词，不会清空selection影响其他程序。2014年 09月 11日 星期四 19:32:42 CST  
 
 ### 安装&运行:
-1. 加入ppa源：
+1. 加入ppa源：  
     sudo add-apt-repository ppa:lcqtdwj/python-marisa-trie
-2. 更新源：
+2. 更新源：  
     sudo apt-get update
-3. 安装够用：
-    sudo apt-get install gouyong
+3. 安装够用：    
+    sudo apt-get install gouyong  
 如果提示依赖不满足，请执行
     sudo apt-get -f install
-安装依赖，然后再次安装。 
-4. 在启动器搜索够用，打开会在系统托盘出现够用图标。然后就可以划次翻译了，在线翻译可能会比较慢，请第一次多等一会。  
+安装依赖，然后再次安装。  
+4. 在启动器搜索够用，打开会在系统托盘出现够用图标。然后就可以划词翻译了，在线翻译可能会比较慢，请第一次多等一会。  
 
 （注：条件原因，Lz只测试了ubuntu14.04,其他版本如果不能启动，请在终端输入:GouYong,把开始的几行复制给我，帮助够用改进，谢谢啦。）  
