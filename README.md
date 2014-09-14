@@ -1,16 +1,16 @@
 
 这是一个Linux词典应用程序，目标够用就好！
 =======
-##欢迎大家一起改进开发，让够用越来越够用，越来越舒服。 
+####欢迎大家一起改进开发，让够用越来越够用，用起来越来越舒服。 
 *(在线翻译资源来自互联网，版权属于相关网站)*
 
 ### TODO:
 - [ ] 顺畅自如的选词弹窗翻译;
-- [ ] 简洁的操作，酷炫的UI;
+- [X] 简洁的操作，酷炫的UI;
 - [ ] 离线词典;
-- [ ] OCR图像取词翻译;
-- [ ] 性能优化;
-- [x] 打包,软件源部署.
+- [X] OCR图像取词翻译;
+- [X] 性能优化;
+- [ ] 打包,软件源部署.
  
  
 
@@ -33,13 +33,13 @@
 
 ### 安装&运行:
 1. 加入ppa源：  
-    sudo add-apt-repository ppa:lcqtdwj/python-marisa-trie
+    `sudo add-apt-repository ppa:lcqtdwj/python-marisa-trie`
 2. 更新源：  
-    sudo apt-get update
+    `sudo apt-get update`
 3. 安装够用：    
-    sudo apt-get install gouyong  
+    `sudo apt-get install gouyong`
 如果提示依赖不满足，请执行
-    sudo apt-get -f install
+        `sudo apt-get -f install`
 安装依赖，然后再次安装。  
 4. 在启动器搜索够用，打开会在系统托盘出现够用图标。然后就可以划词翻译了，在线翻译可能会比较慢，请第一次多等一会。  
 
