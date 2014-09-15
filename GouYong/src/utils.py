@@ -1,5 +1,7 @@
 #!-*- coding:utf-8 -*-
 import time
+import log
+logger = log.get_logger(__name__)
 
 def tidy_text(text):
     return text.lower().strip()
@@ -22,4 +24,4 @@ class Timer(object):
         self.secs = self.end - self.start
         self.msecs = self.secs * 1000
         if self.verbose:
-            print "elapsed time: %f ms" % self.msecs
+            logger.debug("elapsed time: %f ms" % self.msecs)

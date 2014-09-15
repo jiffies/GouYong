@@ -6,6 +6,8 @@ from Xlib.ext import record
 from Xlib.protocol import rq
 import threading
 import os
+import log
+logger = log.get_logger(__name__)
 
 class RecordClient(threading.Thread):
     def __init__(self,clip):
@@ -33,10 +35,10 @@ class RecordClient(threading.Thread):
              
 
         if not self.record_dpy.has_extension('RECORD'):
-            print('Error: RECORD extension not found!')
+            logger.critical('Error: RECORD extension not found!')
             return False
         self.record_dpy.record_enable_context(self.ctx, record_callback)
-        print "free"
+        logger.debug("free")
         self.record_dpy.record_free_context(self.ctx)
 
     def get_event_data(self,data):
@@ -70,10 +72,10 @@ class RecordClient(threading.Thread):
 
 
     def run(self):
-        print "work run"
+        logger.debug("work run")
         self.record_event(self.record_callback)
 
     def stop(self):
-        print "enddddddddd"
+        logger.debug("enddddddddd")
         self.local_dpy.record_disable_context(self.ctx)
         self.local_dpy.flush()

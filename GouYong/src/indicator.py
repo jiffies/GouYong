@@ -3,6 +3,8 @@ from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 import os.path
 import dict_manager
+import log
+logger = log.get_logger(__name__)
 INDICATOR_NAME = "GouYong"
 class DictIndicator(object):
     def __init__(self,main_win,clip,dm):
@@ -59,7 +61,7 @@ class DictIndicator(object):
 
     def cb_dict_select(self,widget):
         if not widget.get_active():
-            print "%s not selected" % widget.get_label()
+            logger.debug("%s not selected" % widget.get_label())
             return
         self.dm.change_dict(widget.get_label())
         

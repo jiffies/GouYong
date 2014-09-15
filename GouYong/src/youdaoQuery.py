@@ -3,6 +3,8 @@ import re
 from string import Template
 import os.path
 import os
+import log
+logger = log.get_logger(__name__)
 EXEPATH=os.path.split(os.path.realpath(__file__))[0]
 os.chdir(EXEPATH)
 CWD=os.getcwd()
@@ -13,7 +15,7 @@ CACHEDIR=os.path.join(os.path.expanduser('~'),".cache","GouYong")
 try:
     os.mkdir(CACHEDIR)
 except OSError:
-    print "cache folder exists."
+    logger.info("cache folder exists.")
 RESULTFILE="result.html"
 def gettext(word):
     query = QUERY+word

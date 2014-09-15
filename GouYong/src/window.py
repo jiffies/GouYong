@@ -10,6 +10,8 @@ from dict_manager import DictManager
 import utils
 from indicator import DictIndicator
 import cairo
+import log
+logger = log.get_logger(__name__)
 WIDTH = 700
 HEIGHT = 280
 OFFLINEWIDTH = 300
@@ -43,7 +45,7 @@ class Popup(object):
             pass
             #self.popup.set_opacity(0.8)
         else:
-            print "Your desktop doesn't support composited."
+            logger.warning("Your desktop doesn't support composited.")
         self.textview.connect("draw",self._on_draw)
     
 
@@ -71,7 +73,7 @@ class Popup(object):
 
     
     def load_uri(self,url):
-        print url
+        logger.debug(url)
         self.web.load_uri(url)
     
     def reload(self):
@@ -98,7 +100,7 @@ class Clip(GObject.GObject):
             }
     
     def do_need_clip(self,time):
-        print "need at ",time
+        logger.debug("need at %s",time)
         with utils.Timer(True) as t:
             self._on_check_clip(time)
 
@@ -141,11 +143,10 @@ class Clip(GObject.GObject):
 
     def _check_mouse(self,center):
         s,x,y,m=self.main_win.display.get_pointer()
-        #print "id:%d, x= %f,y=%f" % (self.check_mouse_thread_id,x,y)
         w,h = self.popup.popup.get_size()
         if self._is_out(x,y,center,w,h):
             self.popup.popup.hide()
-            print "hide============="
+            logger.debug("hide=============")
             return False
         else:
             return True
@@ -184,11 +185,11 @@ class Clip(GObject.GObject):
     def toggle_selection(self,state):
         self.isSel = state
         if self.isSel:
-            print "@@@@@@@@start"
+            logger.debug("@@@@@@@@start")
             self.main_win.rc=record.RecordClient(self)
             self.main_win.rc.start()
         else:
-            print "@@@@@@@@@@@stop"
+            logger.debug("@@@@@@@@@@@stop")
             self.main_win.rc.stop()
 
     def _on_owner_change(self,clip,event):
@@ -203,13 +204,13 @@ class Clip(GObject.GObject):
             self.owner_change = False
         text = self.primary.wait_for_text()
         if text:
-            print text
+            logger.info(text)
         else:
-            print("No text on the clipboard.")
+            logger.info("No text on the clipboard.")
             return False
         #self.primary.set_text('',0)
         s,x,y,m=self.main_win.display.get_pointer()
-        print "x= %f,y=%f" % (x,y)
+        logger.debug("x= %f,y=%f" % (x,y))
         if self.isNet:
             try:
                 results=youdaoQuery.gettext(text)
@@ -217,23 +218,23 @@ class Clip(GObject.GObject):
                 uri = 'file://'+fileName
                 self.popup.load_uri(uri)
             except urllib2.URLError:
-                print "You are disconnected."
+                logger.warning("You are disconnected.")
                 self.dictind.toggled(self.dictind.use_web_item,isNet=False)
                 return
         else:
             text=utils.tidy_text(text)
             results=self.dm.dict[text]
-            print results
+            logger.info(results)
             self.popup.textbuffer.set_text(results,len(results))
 
         self._placement(x,y)
         if self.check_mouse_thread_id and GLib.source_remove(self.check_mouse_thread_id):
-            print "check mouse not finish.now kill it."
+            logger.debug("check mouse not finish.now kill it.")
             #self.popup.popup.hide()
         else:
-            print "There is no check mouse thread."
+            logger.debug("There is no check mouse thread.")
         self.popup.popup.show_all()
-        print "show==================="
+        logger.info("show===================")
         center={'x':x,'y':y}
         self.check_mouse_thread_id=Gdk.threads_add_timeout(GLib.PRIORITY_DEFAULT_IDLE,MOUSE_DETECT_INTERVAL,self._check_mouse,center)
 
