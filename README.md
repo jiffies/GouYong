@@ -4,6 +4,10 @@
 ####欢迎大家一起改进开发，让够用越来越够用，用起来越来越舒服。 
 *(在线翻译资源来自互联网，版权属于相关网站)*
 
+### 图例
+![image](https://cloud.githubusercontent.com/assets/1257256/5561516/1dff5d2a-8e19-11e4-9c18-17815259948d.png)
+![image](https://cloud.githubusercontent.com/assets/1257256/5561515/1dfd28c0-8e19-11e4-8352-67c54a2540c9.png)
+
 ### TODO:
 - [X] 顺畅自如的选词弹窗翻译;
 - [ ] 简洁的操作，酷炫的UI;
