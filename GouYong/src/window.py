@@ -18,6 +18,7 @@ OFFLINEWIDTH = 300
 OFFLINEHEIGHT = 200
 MOUSE_DETECT_INTERVAL = 100
 LEAVE_BORDER_WIDTH = 50
+RETRY_TIME = 5
 
 class Popup(object):
     def __init__(self):
@@ -211,16 +212,26 @@ class Clip(GObject.GObject):
         #self.primary.set_text('',0)
         s,x,y,m=self.main_win.display.get_pointer()
         logger.debug("x= %f,y=%f" % (x,y))
+        import socket
         if self.isNet:
-            try:
-                results=youdaoQuery.gettext(text)
-                fileName=youdaoQuery.creat_file(text,results)
-                uri = 'file://'+fileName
-                self.popup.load_uri(uri)
-            except urllib2.URLError:
-                logger.warning("You are disconnected.")
+            for i in range(RETRY_TIME):
+                try:
+                    results=youdaoQuery.gettext(text)
+                except urllib2.URLError:
+                    logger.debug("disconnect...Try again,the %d times" % (i+1,))
+                except socket.timeout:
+                    logger.debug("timeout,Try again,the %d times" % (i+1,))
+
+                else:
+                    fileName=youdaoQuery.creat_file(text,results)
+                    uri = 'file://'+fileName
+                    self.popup.load_uri(uri)
+                    break
+            else:
+                logger.debug("You are disconnected.")
                 self.dictind.toggled(self.dictind.use_web_item,isNet=False)
                 return
+            
         else:
             text=utils.tidy_text(text)
             results=self.dm.dict[text]
