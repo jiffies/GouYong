@@ -17,7 +17,7 @@ if __name__=="__main__":
     setup(
         #setup_requires = [ "setuptools_git >= 0.3", ],
         name = "GouYong",
-        version = '0.2',
+        version = '0.3',
         packages = find_packages(),
         #include_package_data=True,
         entry_points = {
