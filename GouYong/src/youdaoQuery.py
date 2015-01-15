@@ -31,11 +31,10 @@ def gettext(word):
         logger.info("query fail")
         
     #return response
-def creat_file(word,results):
-    template=Template(file(TEMPLATEFILE).read())
+def creat_file(word,results,template=Template(file(TEMPLATEFILE).read()),
+        fileName=os.path.join(CACHEDIR,RESULTFILE)):
     d={'results':results}
     s=template.substitute(d)   
-    fileName=os.path.join(CACHEDIR,RESULTFILE)
     with file(fileName,'w') as f:
 	    f.write(s)
     return fileName
