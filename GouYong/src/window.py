@@ -33,7 +33,8 @@ class Popup(object):
         self.init_ui()
 
     def init_textview(self):
-        self.textbuffer = Gtk.TextBuffer.new()
+        self.textbuffer = Gtk.TextBuffer()
+        logger.info("textbuffer init %s." % self.textbuffer)
         self.textview = Gtk.TextView.new_with_buffer(self.textbuffer)
         self.textview.set_editable(False)
         self.textview.set_cursor_visible(False)
