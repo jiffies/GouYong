@@ -102,9 +102,16 @@ class Clip(GObject.GObject):
             }
     
     def do_need_clip(self,time):
+        if self.working:
+            logger.debug("Signal callback already woking.")
+            return
+        else:
+            logger.debug("Not working.") 
+            self.working = True
         logger.debug("need at %s",time)
         with utils.Timer(True) as t:
             self._on_check_clip(time)
+            self.working = False
 
     def __init__(self,main_win,popup,dm):
         super(Clip,self).__init__()
@@ -119,6 +126,7 @@ class Clip(GObject.GObject):
         self.owner_change=False
         self.primary=Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
         self.primary.connect("owner-change",self._on_owner_change)
+        self.working = False
         
 
     def _is_out(self,x,y,center_pointer,width,height):
