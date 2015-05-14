@@ -10,6 +10,11 @@
 ##### 离线:
 ![image](https://cloud.githubusercontent.com/assets/1257256/5561515/1dfd28c0-8e19-11e4-8352-67c54a2540c9.png)
 
+### Features:
+1. 结合ButtonRelease和owner-change实现了X window下的最优取词机制，避免了像stardict一样不能再次取同一个词，和像openyoudao一样影响复制且影响其他程序对剪贴板的使用。
+2. 托盘可以暂停取词，还可以切换离线，在线模式。
+3. 自动调整弹出窗口的位置，鼠标远离窗口一定范围时窗口自动关闭。
+
 ### TODO:
 - [X] 顺畅自如的选词弹窗翻译;
 - [ ] 简洁的操作，酷炫的UI;
