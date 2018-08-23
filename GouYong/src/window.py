@@ -242,10 +242,14 @@ class Clip(GObject.GObject):
                 return
             
         else:
-            text=utils.tidy_text(text)
-            results=self.dm.dict[text]
+            try:
+                text=utils.tidy_text(text)
+                results=self.dm.dict[text]
+            except:
+                logger.error("Not query in dict")
+                return
             logger.info(results)
-            self.popup.textbuffer.set_text(results,len(results))
+            self.popup.textbuffer.set_text(results)
 
         self._placement(x,y)
         if self.check_mouse_thread_id and GLib.source_remove(self.check_mouse_thread_id):
