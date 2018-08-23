@@ -16,8 +16,9 @@ class DictManager():
     def __init__(self):
         self.current_dict_name = DEFAULT
         self.dir = DICTDIR
+        print(DICTDIR)
         walk = os.walk(self.dir)
-        self.dicts = walk.next()[1]
+        self.dicts = next(walk)[1]
         self.dict = None
         logger.info(self.dicts)
 

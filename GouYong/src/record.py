@@ -32,7 +32,7 @@ class RecordClient(threading.Thread):
                     'client_started': False,
                     'client_died': False,
                     }])
-             
+
 
         if not self.record_dpy.has_extension('RECORD'):
             logger.critical('Error: RECORD extension not found!')
@@ -48,17 +48,16 @@ class RecordClient(threading.Thread):
 
     def check_valid_event(self,reply):
         if reply.category != record.FromServer:
-            return 
+            return True
         if reply.client_swapped:
-            return
-        if not len(reply.data) or ord(reply.data[0]) < 2:
-            return
-
-
+            return True
+        if not len(reply.data) or (reply.data[0] < 2):
+            return True
 
     def record_callback(self,reply):
-        self.check_valid_event(reply)
-     
+        if self.check_valid_event(reply):
+            return
+
         data = reply.data
         while len(data):
             event, data = self.get_event_data(data)
