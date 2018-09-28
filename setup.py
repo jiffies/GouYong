@@ -16,7 +16,7 @@ def get_data_files():
 if __name__=="__main__":
     setup(
         name = "GouYong",
-        version = '0.4.2',
+        version = '0.4.3',
         packages = find_packages(),
         #include_package_data=True,
         install_requires = [

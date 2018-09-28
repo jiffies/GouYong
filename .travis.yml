@@ -6,11 +6,15 @@ os:
 - linux
 sudo: false
 install:
-- pip install -r requirements.txt
-script: python3 setup.py sdist
+- pip install .
+script:
+- GouYong
 deploy:
   provider: pypi
   user: liyj
   distributions: sdist
   password:
     secure: "mnwknf46NGNfQKfcc2K4h7X9nk5icdi6qFTOjVziGjbV6JleqIZp8UTjfKWBB2eupBXCV2YUt+oNU6op8kME2ij5QInTbVDvOQ5tw+yXXR7jgGMRgNqokXEjrClFrlF+VOuSapS3mUlchu+2MibXr7sq+arTY3RkydW3Gk9prJy7aR5O1Hq08Me1iVTiA7ANtl21XDsGrxzX23wwhGwCdYegOqP7iq2n+BLx55qlT5P78zs3InRLd8+22K5zADXX6dNDcAeUd8CuZncejZgqi/QM03R66qU3UrGC0kpAvFmnVvs+ftNv1XWkBZ9t9NN111Tzlp0N+UxA+KQJfwV0Q8e7RthbemMjMMLxsBnFeVHddYShT07k2lOpy9TXTueSASuO90LMiZHszbW57TCdUmtObZQyE8GK0Ha+PUgZp9sPyHzQP+BkLZibHYcUUfpsQqDqqSTTYwgk9xj31hPkN6Y05R7Dr/alI0nG479mw08U8G0Qg1p47Nvrm1yR8GjuLKj9BIxzb5tOeUL4BmmrvKaqiyKgFU0g3KUXFpOfWWJs8KRYfFNsG5aLNl8TK29LvlDHHq1T7gYXkh+a4mBcg3yI+uh9cPRcQgSOV+ptcNNQnGbGTBjtpLVFIaTYiquHjfB3mqi5uNjPru+LJCTdKtP7bpFlG/oIqyumbMgGgJc="
+  #on:
+    #branch: master
+    #tag: true
