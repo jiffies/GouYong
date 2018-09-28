@@ -1,13 +1,15 @@
 language: python
 python:
-  - "3.5"
+- '3.5'
 dist: trusty
 os:
-  - linux
+- linux
 sudo: false
-
 install:
-  - pip install -r requirements.txt
-
-script:
-    python3 setup.py sdist
+- pip install -r requirements.txt
+script: python3 setup.py sdist
+deploy:
+  provider: pypi
+  user: "liyj"
+  password:
+    secure: LOwK6S8E+PfWI5L/rYidOJZBQftrWoUvsj+H1zxA9SyUlzKBrz79NjxtVkhs70dHG0OMDoj5SRQzKugIgtAtvzkQDMEZ3aifna7jmCeHqmsmTO+mcp6D5HAGXm/60hJC28leLajV4vYJMvHZ2PES62SD8VVjhtyR8XkoJQ5GuGN2OhucDfEerZ4gHT3VVjMPbivnQDDxf5+dV4Ort9xK8aijQxwE8geju7LXbORLi8heFeVd0cQ0k8pqasqmXzWoX4BW/33/JzwaFiaw6tCFna5aoKY9pp5glL+H/gjVd2CtqpXICbl6JUfkijurFIeXH45VYkHa9cvHvRr4ccK8v4lOuXIVziPfsy5XIL/X0J2vxfObSo5YpOROy6ovnF1vZ8DPCfttQHd5yfc0vrCuxBXR6rH90jIsyLreKQm4KvHE2VC9zdl6zzFpB/1JHcfYGw7l7yUo4QiyVK7uKxq56irZtmMCw9/eTUTME/pjpJQ8CCzk0AAWqIS5xCxR5wDQtRiaQgeoPapzfNfTx12fWS5J1+TNdSx+q8O4TsKzTP2A9m45ekSWR/YnzXjW1mt8hECOT/a+uP/ymsuBsY4yBlkGF926Aq0g0y1q2/JgiezoiKLy6AN97eIyTBdc04cCxUbAfZPwANr36coKRJcrf1VfPf82RxNfNTRBOyYfVYc=
