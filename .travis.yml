@@ -5,11 +5,11 @@ dist: trusty
 os:
   - linux
 sudo: false
-install:
-  - pip install -r requirements.txt
-script:
-  - pip install .
-  - GouYong
+#install:
+  #- pip install -r requirements.txt
+#script:
+  #- pip install .
+  #- GouYong
 deploy:
   provider: pypi
   user: liyj
