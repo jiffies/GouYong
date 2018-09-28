@@ -1,11 +1,6 @@
 language: python
 python:
-  -3.0
-before_install:
-  sudo apt-get install python3
-  sudo apt-get install python-dev
-  sudo apt-get install python3-pip
-sudo: ture
+  -3.5
 
 script:
-    python setup.py sdist
+    python3 setup.py sdist
