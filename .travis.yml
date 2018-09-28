@@ -1,0 +1,9 @@
+language: python
+python:
+  -3.0
+os:
+  - linux
+sudo: ture
+
+script:
+    python setup.py sdist
