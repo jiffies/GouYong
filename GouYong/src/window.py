@@ -1,17 +1,20 @@
 #!/usr/bin/python3.5
 #-*- coding:utf-8 -*-
-from gi.repository import Gdk,Gtk,GLib,WebKit,GObject
+from gi.repository import Gdk,Gtk,GLib,GObject
 import os
 import sys
-import record
+PACKAGE_PARENT = '../../'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 import os.path
-from dict_manager import DictManager
-import utils
-from indicator import DictIndicator
-from cht import Cht
-from translator import Translator
+from GouYong.src import record
+from GouYong.src.dict_manager import DictManager
+from GouYong.src import utils
+from GouYong.src.indicator import DictIndicator
+from GouYong.src.cht import Cht
+from GouYong.src.translator import Translator
 import cairo
-import log
+from GouYong.src import log
 logger = log.get_logger(__name__)
 WIDTH = 500
 HEIGHT = 240

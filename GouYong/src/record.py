@@ -6,7 +6,8 @@ from Xlib.ext import record
 from Xlib.protocol import rq
 import threading
 import os
-import log
+from GouYong.src import log
+# from GouYong.src. import log
 logger = log.get_logger(__name__)
 
 

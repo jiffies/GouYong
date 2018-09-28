@@ -1,9 +1,9 @@
 #!/usr/bin/python3.5
 #-*- coding:utf-8 -*-
 
-from google import GoogleTranslate
-from sogou import SogouTranslate
-from youdao import YoudaoTranslate
+from GouYong.src.google import GoogleTranslate
+from GouYong.src.sogou import SogouTranslate
+from GouYong.src.youdao import YoudaoTranslate
 
 class Translator(object):
     def __init__(self,  engine = 'google'):
@@ -19,13 +19,16 @@ class Translator(object):
                 self.translator = translator
 
     def translate(self, text):
-        result = self.translator.translate(text)
-        if text == result:
-            for translator in self.translators:
-                result = translator.translate(text)
-                if result != text:
-                    break;
-        return result
+        try:
+            result = self.translator.translate(text)
+            if text == result:
+                for translator in self.translators:
+                    result = translator.translate(text)
+                    if result != text:
+                        break;
+            return result
+        except:
+            return text
 
 if __name__ == '__main__':
     translator = Translator()

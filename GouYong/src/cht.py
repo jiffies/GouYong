@@ -3,7 +3,7 @@
 
 import re
 import requests
-from translator import Translator
+from GouYong.src.translator import Translator
 
 class Cht(object):
     def __init__(self, url = "https://cht.sh/"):

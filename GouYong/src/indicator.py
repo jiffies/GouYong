@@ -2,8 +2,8 @@
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 import os.path
-import dict_manager
-import log
+from GouYong.src import dict_manager
+from GouYong.src import log
 logger = log.get_logger(__name__)
 INDICATOR_NAME = "GouYong"
 class DictIndicator(object):

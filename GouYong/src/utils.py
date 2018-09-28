@@ -1,6 +1,6 @@
 #!-*- coding:utf-8 -*-
 import time
-import log
+from GouYong.src import log
 logger = log.get_logger(__name__)
 
 def tidy_text(text):

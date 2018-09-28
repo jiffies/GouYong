@@ -1,3 +1,4 @@
+#!/usr/bin/python3.5
 #!-*- coding:utf-8 -*-
 LIBDIR = 'lib'
 #DEFAULT = 'langdao-ec-gb'
@@ -8,8 +9,9 @@ import os.path
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),'..',LIBDIR))
 from pystardict import Dictionary
 SUFFIX=['.oft','.gz','.dz']
-DICTDIR = os.path.join(sys.prefix,'share','GouYong','dict')
-import log
+DICTDIR = os.path.join('/usr','share','GouYong','dict')
+# DICTDIR = os.path.join('../','share','GouYong','dict')
+from GouYong.src import log
 logger = log.get_logger(__name__)
 
 class DictManager():
@@ -47,8 +49,10 @@ class DictManager():
 def main():
     d=DictManager()
     d.open_dict()
+    print(d.dicts)
+    for dict in d.dicts:
+        print(dict)
 
 if __name__=="__main__":
     main()
-    #for dict in d.dicts:
         #d.change_dict(dict)
