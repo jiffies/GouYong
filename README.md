@@ -1,7 +1,11 @@
 
-##这是一个Linux词典应用程序，目标够用就好！
+[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://github.com/zaixi/GouYong)
+[![Travis (.org)](https://img.shields.io/travis/zaixi/GouYong.svg)](https://github.com/zaixi/GouYong)
 
-####欢迎大家一起改进开发，让够用越来越够用，用起来越来越舒服。 
+
+## 这是一个Linux词典应用程序，目标够用就好！
+
+#### 欢迎大家一起改进开发，让够用越来越够用，用起来越来越舒服。 
 *(在线翻译资源来自互联网，版权属于相关网站)*
 
 ### 图例:
@@ -10,10 +14,19 @@
 ##### 离线:
 ![image](https://cloud.githubusercontent.com/assets/1257256/5561515/1dfd28c0-8e19-11e4-8352-67c54a2540c9.png)
 
+### 安装
+只支持python3及以上
+`pip install GouYong`
+
 ### Features:
 1. 结合ButtonRelease和owner-change实现了X window下的最优取词机制，避免了像stardict一样不能再次取同一个词，和像openyoudao一样影响复制且影响其他程序对剪贴板的使用。
 2. 托盘可以暂停取词，还可以切换离线，在线模式。
 3. 自动调整弹出窗口的位置，鼠标远离窗口一定范围时窗口自动关闭。
+4. 更改划词翻译触发机制为连按左ctrl两次。
+5. 增加连按右ctrl两次通过cht.sh查询并翻译。
+6. 增加翻译引擎选择,目前支持谷歌搜狗有道。
+7. 增加travis自动上传到pypi。
+8. 由python2改为python3
 
 ### TODO:
 - [X] 顺畅自如的选词弹窗翻译;
