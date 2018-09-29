@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3.5
 #!-*- coding:utf-8 -*-
 import optparse
 import os
@@ -32,7 +32,7 @@ def main():
             """)
     p.add_option('--lp',action="store_true",help="build and upload to launchpad.")
     p.add_option('--clean',action="store_true",help="remove tmp file.")
-    
+
     options,arguments=p.parse_args()
     if options.lp:
         stdeb4ppa()

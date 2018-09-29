@@ -1,0 +1,5 @@
+requests==2.9.1
+PyStarDict==0.8
+googletrans==2.3.0
+setuptools==40.1.0
+Xlib==0.21

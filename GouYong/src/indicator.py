@@ -2,16 +2,17 @@
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 import os.path
-import dict_manager
-import log
+from GouYong.src import dict_manager
+from GouYong.src import log
 logger = log.get_logger(__name__)
 INDICATOR_NAME = "GouYong"
 class DictIndicator(object):
-    def __init__(self,main_win,clip,dm):
+    def __init__(self,main_win,clip,dm,translator):
         self.name=INDICATOR_NAME
         self.main_win= main_win
         self.clip = clip
         self.dm = dm
+        self.translator = translator
         self.ind = appindicator.Indicator.new_with_path(
                     self.name,
                     "icon",
@@ -31,7 +32,8 @@ class DictIndicator(object):
         self.menu.append(item)
         self.use_web_item = item
 
-        self.init_submenu()
+        self.init_dict_submenu()
+        self.init_engine_submenu()
 
         item = Gtk.MenuItem()
         item.set_label("退出")
@@ -42,7 +44,7 @@ class DictIndicator(object):
         self.ind.set_menu(self.menu)
 
 
-    def init_submenu(self):
+    def init_dict_submenu(self):
         dict_select = Gtk.Menu()
         item = Gtk.MenuItem()
         item.set_label("选择词典")
@@ -64,7 +66,29 @@ class DictIndicator(object):
             logger.debug("%s not selected" % widget.get_label())
             return
         self.dm.change_dict(widget.get_label())
-        
+
+    def init_engine_submenu(self):
+        dict_select = Gtk.Menu()
+        item = Gtk.MenuItem()
+        item.set_label("翻译引擎")
+        item.set_submenu(dict_select)
+        self.menu.append(item)
+
+        self.engine_select_group = Gtk.RadioMenuItem().get_group()
+        for translator in self.translator.translators:
+            item = Gtk.RadioMenuItem.new_with_label(self.engine_select_group,translator.engine)
+            if translator == self.translator.translator:
+                item.set_active(True)
+            self.engine_select_group = item.get_group()
+            #item.set_label(dict)
+            item.connect("toggled",self.engine_select)
+            dict_select.append(item)
+
+    def engine_select(self,widget):
+        if not widget.get_active():
+            logger.debug("%s not selected" % widget.get_label())
+            return
+        self.translator.set_translator(widget.get_label())
 
     def toggled(self,item,isNet=None):
         if isNet is None:
@@ -80,4 +104,4 @@ class DictIndicator(object):
     def cb_isSel(self,widget):
         self.clip.toggle_selection(widget.get_active())
 
-                
+
